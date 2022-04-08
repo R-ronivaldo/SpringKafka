@@ -1,6 +1,6 @@
 package com.springkafka.springkafka.config;
 
-import com.springkafka.springkafka.controller.CarDTO;
+import com.springkafka.springkafka.model.User;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -30,7 +30,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<String, CarDTO> CarProducerFactory() {
+    public ProducerFactory<String, User> UserProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -39,8 +39,8 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, CarDTO> carafkaTemplate() {
-        return new KafkaTemplate<>(CarProducerFactory());
+    public KafkaTemplate<String, User> carafkaTemplate() {
+        return new KafkaTemplate<>(UserProducerFactory());
     }
 
 }

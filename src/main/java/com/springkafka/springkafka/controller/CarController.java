@@ -10,20 +10,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
-import com.springkafka.springkafka.producer.CarProducer;
+import com.springkafka.springkafka.model.User;
+import com.springkafka.springkafka.producer.UserProducer;
 
 @RestController
 @RequestMapping("/cars")
 public class CarController {
 
     @Autowired
-    private CarProducer carProducer;
+    private UserProducer userProducer;
 
     @PostMapping
-    public ResponseEntity<CarDTO> create(@RequestBody CarDTO carDTO){
-        CarDTO car = CarDTO.builder().id(UUID.randomUUID().toString()).color(carDTO.getColor()).model(carDTO.getModel()).build();
-        carProducer.send(car);
-        return ResponseEntity.status(HttpStatus.CREATED).body(car);
+    public ResponseEntity<User> create(@RequestBody User userRequest){
+        User user = User.builder().id(UUID.randomUUID().toString()).username(userRequest.getUsername()).email(userRequest.getEmail()).build();
+        userProducer.send(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
 }
