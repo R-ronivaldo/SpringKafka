@@ -14,17 +14,24 @@ import com.springkafka.springkafka.model.User;
 import com.springkafka.springkafka.producer.UserProducer;
 
 @RestController
-@RequestMapping("/cars")
-public class CarController {
+@RequestMapping("/users")
+public class UserController {
 
     @Autowired
     private UserProducer userProducer;
 
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User userRequest){
-        User user = User.builder().id(UUID.randomUUID().toString()).username(userRequest.getUsername()).email(userRequest.getEmail()).build();
-        userProducer.send(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        userRequest.setId(UUID.randomUUID().toString());
+        
+        // TODO - PasswordEncoder before send User to DB.
+
+        // TODO - save User in DB. If completed, continue.
+
+        // TODO - remove password of the User before send message to kafka.
+        
+        userProducer.send(userRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userRequest);
     }
 
 }
